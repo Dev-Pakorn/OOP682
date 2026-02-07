@@ -10,14 +10,12 @@ class TaskService:
         return self.repo.get_all()
 
     def create_task(self, task_in: TaskCreate):
-        # --- Challenge 2: Validation Logic ---
         existing_task = self.repo.get_by_title(task_in.title)
         if existing_task:
             raise HTTPException(status_code=400, detail="Task title already exists")
         
         return self.repo.create(task_in)
     
-    # --- Challenge 1: Mark as Complete Logic ---
     def mark_as_complete(self, task_id: int):
         task = self.repo.update(task_id, completed=True)
         if not task:
