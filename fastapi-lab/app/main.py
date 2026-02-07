@@ -23,18 +23,15 @@ def get_task_service(db: Session = Depends(get_db)):
     return TaskService(repo)
 
 
+
 @app.get("/tasks", response_model=List[Task])
 def read_tasks(service: TaskService = Depends(get_task_service)):
     return service.get_tasks()
-
 
 @app.post("/tasks", response_model=Task)
 def create_task(task: TaskCreate, service: TaskService = Depends(get_task_service)):
     return service.create_task(task)
 
-
 @app.put("/tasks/{task_id}/complete", response_model=Task)
-def complete_task(
-    task_id: int, service: TaskService = Depends(get_task_service)):    
+def complete_task(task_id: int, service: TaskService = Depends(get_task_service)):
     return service.mark_as_complete(task_id)
-
