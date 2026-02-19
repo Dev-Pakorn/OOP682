@@ -1,9 +1,9 @@
 import csv
-from log_viewer.interfaces.data_source import ILogSource
+from interfaces.data_source import ILogSource
 
-class CSVLogSource(ILogSource):
-    def __init__(self, filepath : str):
-        self.filepath = filepath
+class CsvLogSource(ILogSource):
+    def __init__(self, file_path : str):
+        self.filepath = file_path
 
     def get_logs(self):
         log = []

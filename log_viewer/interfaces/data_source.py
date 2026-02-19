@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-# Interface (Contract)
+
 class ILogSource(ABC):
     
     @abstractmethod

@@ -1,5 +1,5 @@
 from typing import List
-from log_viewer.interfaces.data_source import ILogSource
+from interfaces.data_source import ILogSource
 
 class FileLogSource(ILogSource):
     def __init__(self, filepath):

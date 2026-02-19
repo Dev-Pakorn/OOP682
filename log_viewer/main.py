@@ -1,9 +1,12 @@
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from PySide6.QtWidgets import QApplication
-from log_viewer.interfaces.data_source import ILogSource
-from log_viewer.services.file_source import FileLogSource
-from log_viewer.services.mock_source import MockLogSource
-from log_viewer.ui.main_window import MainWindow
-from log_viewer.services.csv_source import CSVLogSource
+from interfaces.data_source import ILogSource
+from services.file_source import FileLogSource
+from services.mock_source import MockLogSource
+from services.csv_source import CsvLogSource
+from ui.main_window import MainWindow
 
 class SourceFactory:
     @staticmethod
@@ -13,15 +16,22 @@ class SourceFactory:
         elif source_type == "mock":
             return MockLogSource()
         elif source_type == "csv":
-            return CSVLogSource("logs.csv")
+            return CsvLogSource("data.csv")
         else:
             raise ValueError(f"Unknown type: {source_type}")
 
 if __name__ == "__main__":
-    app = QApplication([])
-    source = SourceFactory.create_source("csv") 
+    app = QApplication(sys.argv)
     
-    viewer = MainWindow(source)
-    viewer.load_data()
-    viewer.show()
-    app.exec() 
+    try:
+        selected_type = "csv"
+        source = SourceFactory.create_source(selected_type) 
+        viewer = MainWindow(source)
+        viewer.setWindowTitle(f"Log Viewer - Source: {selected_type.upper()}")
+        
+        viewer.load_data()
+        viewer.show()
+        sys.exit(app.exec())
+        
+    except Exception as e:
+        print(f"เกิดข้อผิดพลาดในการรันโปรแกรม: {e}")
